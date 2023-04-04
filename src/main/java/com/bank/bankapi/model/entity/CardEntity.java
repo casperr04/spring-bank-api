@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Date;
 
@@ -27,15 +28,22 @@ public class CardEntity {
     @Enumerated(EnumType.STRING)
     private CardType type;
     @Column(nullable = false)
-    private long balance;
+    private long balance = 0;
     @Column(nullable = false)
     private Date expirationDate;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 3)
     private String cvv;
     @Column(nullable = false)
     private String primaryAccountNumber;
+
+    /**
+     * If card has been blocked, this will be false.
+     */
     @Column(nullable = false)
     private boolean isValid = true;
     @Column(nullable = false)
     private int spendingLimit = 0;
+    @CreationTimestamp
+    @Column(nullable = false)
+    private Date creationDate;
 }

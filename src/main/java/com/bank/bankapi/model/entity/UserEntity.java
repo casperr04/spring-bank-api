@@ -20,16 +20,17 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
+    @Column(nullable = false, unique = true)
+    private String userId;
     @Column(nullable = false, length = 35)
     private String firstName;
     @Column(length = 35)
     private String middleName;
     @Column(nullable = false, length = 35)
     private String lastName;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
-    @Column(nullable = false, length = 16)
+    @Column(nullable = false, length = 16, unique = true)
     private String phoneNumber;
     @Column(nullable = false)
     private Date dateOfBirth;
