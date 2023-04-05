@@ -2,11 +2,15 @@ package com.bank.bankapi.model.entity;
 
 import com.bank.bankapi.constants.CardType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.validator.constraints.Length;
 
 import java.sql.Date;
 
@@ -27,23 +31,25 @@ public class CardEntity {
     private UserEntity owner;
     @Enumerated(EnumType.STRING)
     private CardType type;
-    @Column(nullable = false)
+    @NotBlank
     private long balance = 0;
-    @Column(nullable = false)
+    @NotBlank
+    @Future
     private Date expirationDate;
-    @Column(nullable = false, length = 3)
+    @NotBlank
+    @Length(min=3,max=3)
     private String cvv;
-    @Column(nullable = false)
+    @NotBlank
     private String primaryAccountNumber;
 
     /**
      * If card has been blocked, this will be false.
      */
-    @Column(nullable = false)
+    @NotBlank
     private boolean isValid = true;
-    @Column(nullable = false)
+    @NotBlank
     private int spendingLimit = 0;
     @CreationTimestamp
-    @Column(nullable = false)
+    @PastOrPresent
     private Date creationDate;
 }

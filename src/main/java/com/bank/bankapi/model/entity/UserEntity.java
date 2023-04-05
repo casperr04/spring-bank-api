@@ -1,11 +1,15 @@
 package com.bank.bankapi.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.validator.constraints.Length;
 
 import java.sql.Date;
 import java.util.Set;
@@ -20,29 +24,43 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @Column(nullable = false, unique = true)
-    private String userId;
-    @Column(nullable = false, length = 35)
+    @NotBlank
+    @Length(min = 28, max = 28)
+    @Column(unique = true)
+    private String accountNumber;
+    @NotBlank
+    @Length(min = 1, max = 35)
     private String firstName;
-    @Column(length = 35)
+    @NotBlank
+    @Length(min = 1, max = 35)
     private String middleName;
-    @Column(nullable = false, length = 35)
+
+    @NotBlank
+    @Column(unique = true)
+    @Length(min = 1, max = 35)
     private String lastName;
-    @Column(nullable = false, unique = true)
+
+    @NotBlank
+    @Column(unique = true)
     private String email;
-    @Column(nullable = false, length = 16, unique = true)
+
+    @NotBlank
+    @Length(min = 4, max = 16)
+    @Column(unique = true)
     private String phoneNumber;
-    @Column(nullable = false)
+    @NotBlank
+    @Past
     private Date dateOfBirth;
-    @Column(nullable = false)
+    @NotBlank
     private String country;
-    @Column(nullable = false)
+    @NotBlank
     private String city;
-    @Column(nullable = false)
+    @NotBlank
     private String address;
     @OneToMany(mappedBy = "owner")
     @ToString.Exclude
     private Set<CardEntity> cards;
     @CreationTimestamp
+    @PastOrPresent
     private Date creationDate;
 }
